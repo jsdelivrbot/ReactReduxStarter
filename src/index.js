@@ -6,13 +6,12 @@ import { BrowserRouter, Switch, Route } from 'react-router-dom';
 
 import './css/site.css';
 import App from './components/App';
-import reducers from './reducers';
-import Async from './middlewares/async';
+import rootReducer from './reducers/rootReducer';
 
-const createStoreWithMiddleware = applyMiddleware(Async)(createStore);
+const createStoreWithMiddleware = applyMiddleware()(createStore);
 
 ReactDOM.render(
-    <Provider store={createStoreWithMiddleware(reducers)}>
+    <Provider store={createStoreWithMiddleware(rootReducer)}>
         <App />
     </Provider>,
     document.querySelector('.container')

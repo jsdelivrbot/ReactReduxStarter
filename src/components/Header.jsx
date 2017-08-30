@@ -34,6 +34,6 @@ class Header extends Component {
 }
 
 export default connect(
-    state => ({ authenticated: state.authenticated }),
+    state => ({ authenticated: state.auth.authenticated }),
     { authenticate }
 )(Header);

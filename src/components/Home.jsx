@@ -1,9 +1,8 @@
 import React, { Component } from 'react';
-import { connect } from 'react-redux';
 
 class Home extends Component {
     componentWillMount() {
-        //call some init action
+        //call some load up action
     }
 
     render() {
@@ -15,10 +14,7 @@ class Home extends Component {
     }
 }
 
-export default connect(
-    state => ({  }),
-    { }
-)(Home);
+export default Home;
 
 
 

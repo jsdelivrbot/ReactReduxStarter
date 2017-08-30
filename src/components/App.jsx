@@ -1,21 +1,27 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { BrowserRouter, Switch, Route } from 'react-router-dom';
+import { Router, Switch, Route } from 'react-router-dom';
 
+import history from '../services/history';
 import Header from './Header';
 import Home from './Home';
+import NotFound from './NotFound';
+import RequireAuth from './auth/RequireAuth';
+import Protected from './Protected';
 
 class App extends Component {
     render() {
         return (
-            <BrowserRouter>
+            <Router history={history}>
                 <div>
                     <Header />
                     <Switch>
-                        <Route path="/" component={Home} />
+                        <Route exact path="/" component={Home} />
+                        <Route path="/protected" component={RequireAuth(Protected)} />
+                        <Route component={NotFound} />
                     </Switch>
                 </div>
-            </BrowserRouter>
+            </Router>
         );
     }
 }

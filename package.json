@@ -6,7 +6,7 @@
   "repository": "git@github.com:StephenGrider/ReduxSimpleStarter.git",
   "scripts": {
     "clean": "rimraf dist",
-    "build": "npm run clean && webpack",
+    "build": "NODE_ENV=production npm run clean && webpack -p",
     "dev": "NODE_ENV=development webpack-dev-server --inline --hot",
     "prod": "npm run build && cd dist && python3 -m http.server 8090"
   },

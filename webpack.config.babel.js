@@ -5,20 +5,26 @@ import ExtractTextWebpackPlugin from 'extract-text-webpack-plugin';
 
 const config = {
     devtool: process.env.NODE_ENV === 'development' ? 'inline-source-map' : 'source-map',
-    entry: [
-        './src/index.js'
-    ],
+    entry: {
+        bundle: './src/index.js',
+        vendor: [
+            'axios',
+            'prop-types',
+            'react',
+            'react-dom',
+            'react-redux',
+            'react-router-dom',
+            'redux',
+            'redux-form',
+            'react-loadable',
+            'redux-thunk',
+        ]
+    },
     output: {
         path: path.resolve(__dirname, 'dist'),
-        publicPath: '/',
-        filename: 'bundle.js'
+        publicPath: '',
+        filename: process.env.NODE_ENV === 'development' ? '[name].js' : '[name].[chunkhash].js'
     },
-    plugins: [
-        new HtmlWebpackPlugin({
-            filename: 'index.html',
-            template: 'src/index.html'
-        })
-    ],
     module: {
         rules: [
             {
@@ -32,18 +38,28 @@ const config = {
             }
         ]
     },
+    plugins: [
+        new HtmlWebpackPlugin({
+            filename: 'index.html',
+            template: 'src/index.html'
+        }),
+        new webpack.optimize.CommonsChunkPlugin({
+            names: ['vendor', 'manifest']
+        })
+    ],
     resolve: {
         extensions: ['.js', '.jsx']
-    },
-    devServer: {
-        historyApiFallback: true,
-        contentBase: './',
-        port: 8080
     }
 };
 
 
 if (process.env.NODE_ENV === 'development') {
+    config.devServer = {
+        historyApiFallback: true,
+        contentBase: './dist',
+        port: 8080
+    };
+
     config.module.rules.push({
         test: /\.css$/,
         loaders: ['style-loader', 'css-loader']
@@ -56,7 +72,7 @@ if (process.env.NODE_ENV === 'development') {
 else {
     config.plugins.push(
         new ExtractTextWebpackPlugin({
-            filename: "[name].css"
+            filename: '[name].css'
         })
     );
 
